@@ -1,21 +1,29 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\Authentication\LoginRequest;
+use App\Jobs\Authentication\LoginJob;
+use Illuminate\Http\JsonResponse;
 
 class LoginController extends Controller
 {
     /**
-     * Handle the incoming request.
-     *
-     * @param Request $request
-     * @return Response
+     * @param LoginRequest $request
+     * @return JsonResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(LoginRequest $request): JsonResponse
     {
-        //
+        $user = $this->dispatchSync(new LoginJob($request->email, $request->password));
+
+        $tokenResult = $user->createToken('authToken')->plainTextToken;
+
+        return response()->json([
+            'status_code' => 200,
+            'access_token' => $tokenResult,
+            'token_type' => 'Bearer',
+        ]);
     }
 }

@@ -19,7 +19,7 @@ case "$1" in
     ;;
 
 'composer')
-    COMPOSER_MEMORY_LIMIT=-1 MSYS_NO_PATHCONV=1 docker run --rm --interactive --tty --volume ${PROJECT_PATH}:/app composer ${@:2} --ignore-platform-reqs
+    COMPOSER_MEMORY_LIMIT=-1 MSYS_NO_PATHCONV=1 docker run --rm --interactive --tty --volume ${PROJECT_PATH}:/app composer ${@:2}
     ;;
 
 '--help')
