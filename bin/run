@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+PROJECT_PATH="$(
+    cd "$(dirname "$0")/.."
+    pwd
+)"
+
+
+print_usage() {
+    echo "Usage:"
+    echo "  run artisan <task>"
+    echo "  run composer <command>"
+    echo ""
+}
+
+case "$1" in
+'artisan')
+    docker exec -i loan-app php artisan ${@:2}
+    ;;
+
+'composer')
+    COMPOSER_MEMORY_LIMIT=-1 MSYS_NO_PATHCONV=1 docker run --rm --interactive --tty --volume ${PROJECT_PATH}:/app composer ${@:2} --ignore-platform-reqs
+    ;;
+
+'--help')
+    echo "Run tools from docker containers."
+    echo ""
+    print_usage
+    ;;
+
+*)
+    echo "Invalid command: $1"
+    echo ""
+    print_usage
+    exit 1
+    ;;
+esac
+

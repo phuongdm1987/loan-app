@@ -1,0 +1,94 @@
+version: '2'
+services:
+  app_base:
+    build:
+      context: docker/php
+    container_name: loan-app-base
+    volumes:
+      - .:/var/www:rw
+    networks:
+      - loan_network
+    env_file:
+      - docker/env/main.env
+      - docker/env/mail.env
+      - docker/env/mysql.env
+      - .env
+
+  app:
+    extends:
+      service: app_base
+    container_name: loan-app
+    image: loan-app-dev
+    depends_on:
+      - mysql
+
+  nginx:
+    build:
+      context: docker/nginx
+    container_name: loan-nginx
+    volumes:
+      - ./:/var/www
+    networks:
+      loan_network:
+        aliases:
+          - loan.local
+    ports:
+      - 93:80
+    depends_on:
+      - app
+
+  mysql:
+    image: 'mysql:8.0'
+    container_name: loan-mysql
+    ports:
+      - '3322:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'mysql:/var/lib/mysql'
+    networks:
+      - loan_network
+
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    container_name: loan-mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - loan_network
+
+  supervisor:
+    build:
+      context: docker/supervisor
+    container_name: loan-supervisor
+    volumes:
+      - .:/var/www
+      - ${PWD}/docker/supervisor/supervisord:/etc/supervisord.d
+    networks:
+      - loan_network
+
+  cron:
+    build:
+      context: docker/cron
+    container_name: loan-cron
+    volumes:
+      - .:/var/www
+    networks:
+      - loan_network
+    env_file:
+      - docker/env/main.env
+      - docker/env/mail.env
+      - docker/env/mysql.env
+      - .env
+
+networks:
+  loan_network:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
+  cron:
+    driver: local
