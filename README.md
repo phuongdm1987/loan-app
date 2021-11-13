@@ -41,3 +41,4 @@ project avaiable on http://loan.local:93
 - Re-run ```docker-compose up``` # after change .env file
 - ```bin/run artisan optimize:clear``` # to clear cache services
 - ```bin/run artisan queue:work --queue={default},{emails}``` # run queue by manual
+- First user: Email: phuongdm1987@gmail.com | Password: password

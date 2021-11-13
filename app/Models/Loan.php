@@ -13,6 +13,10 @@ class Loan extends Model
 {
     use HasFactory;
 
+    public const STATUS_PENDING = 'PENDING';
+    public const STATUS_APPROVED = 'APPROVED';
+    public const STATUS_PAID = 'PAID';
+
     /**
      * @var string[]
      */
@@ -28,6 +32,7 @@ class Loan extends Model
      * @var string[]
      */
     protected $casts = [
+        'user_id' => 'integer',
         'amount' => 'double',
         'term' => 'integer',
         'approved_at' => 'datetime',
@@ -46,6 +51,18 @@ class Loan extends Model
             12 => __('month', ['number' => 12]),
             24 => __('month', ['number' => 24]),
             36 => __('month', ['number' => 36]),
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getStatuses(): array
+    {
+        return [
+            self::STATUS_PENDING => self::STATUS_PENDING,
+            self::STATUS_APPROVED => self::STATUS_APPROVED,
+            self::STATUS_PAID => self::STATUS_PAID,
         ];
     }
 }
