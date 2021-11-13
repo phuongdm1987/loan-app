@@ -1,14 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Requests\Authentication;
+namespace App\Http\Requests\Loan;
 
+use App\Models\Loan;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  *
  */
-class LoginRequest extends FormRequest
+class StoreLoanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +30,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:8',
+            'amount' => ['required', 'integer'],
+            'term' => ['required', Rule::in(array_keys(Loan::getTerms()))],
         ];
     }
 }

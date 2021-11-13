@@ -21,7 +21,7 @@ class CreateLoansTable extends Migration
             $table->id();
             $table->foreignId('user_id')->index();
             $table->double('amount', 20, 2);
-            $table->enum('term', ['WEEKLY'])->default('WEEKLY')->index();
+            $table->tinyInteger('term')->index();
             $table->enum('status', ['PENDING', 'APPROVED'])->default('PENDING')->index();
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
