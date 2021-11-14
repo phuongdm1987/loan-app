@@ -1,5 +1,10 @@
 # Loan API Project
 
+## Brief documentation
+- use `knuckleswtf/scribe` package to generate API documents for quickly
+- use cron to approve loan automatically every minute
+- use jobs and events to avoid duplicate codes and help to follow SOLID principles
+
 ### How to run in local for first time
 ```bash
 cp .env.example .env
@@ -12,7 +17,6 @@ docker-compose exec mysql mysql
 
 ```mysql
 create database loan character set utf8mb4 collate utf8mb4_unicode_ci;
-exit;
 ```
 
 ```bash
