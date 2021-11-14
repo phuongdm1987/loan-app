@@ -42,3 +42,4 @@ project avaiable on http://loan.local:93
 - ```bin/run artisan optimize:clear``` # to clear cache services
 - ```bin/run artisan queue:work --queue={default},{emails}``` # run queue by manual
 - First user: Email: phuongdm1987@gmail.com | Password: password
+- Generate API documentation ```bin/run artisan scribe:generate``` the document will appear at /public/docs/, this folder includes: openapi & postman

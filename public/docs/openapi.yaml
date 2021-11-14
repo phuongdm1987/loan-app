@@ -1,0 +1,429 @@
+openapi: 3.0.3
+info:
+  title: 'Loan Application'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://loan.local:93'
+paths:
+  /api/login:
+    post:
+      summary: Login
+      description: 'The API authenticate and return access token.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  statusCode: 200
+                  data:
+                    accessToken: 'your token key'
+                    tokenType: Bearer
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    example:
+                      accessToken: 'your token key'
+                      tokenType: Bearer
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'The given data was invalid.'
+                  errors:
+                    email:
+                      - 'These credentials do not match our records.'
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                  errors:
+                    type: object
+                    example:
+                      email:
+                        - 'These credentials do not match our records.'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of user. Must be a valid email address.'
+                  example: phuongdm1987@gmail.com
+                password:
+                  type: string
+                  description: 'The password of user. Must be at least 8 characters.'
+                  example: password
+              required:
+                - email
+                - password
+      security: []
+  /api/loans:
+    post:
+      summary: 'Store a new Loan'
+      description: 'Request a new loan'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  statusCode: 200
+                  data:
+                    id: 1
+                    amount: 500000
+                    term: 12
+                    status: PENDING
+                    createdAt: '2021-11-14'
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    example:
+                      id: 1
+                      amount: 500000
+                      term: 12
+                      status: PENDING
+                      createdAt: '2021-11-14'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'The given data was invalid.'
+                  errors:
+                    amount:
+                      - 'The amount field is required.'
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                  errors:
+                    type: object
+                    example:
+                      amount:
+                        - 'The amount field is required.'
+      tags:
+        - 'Loan management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: integer
+                  description: 'The amount want to loan.'
+                  example: 500000
+                term:
+                  type: integer
+                  description: 'The term of loan by months. Must be one of <code>1</code>, <code>3</code>, <code>6</code>, <code>9</code>, <code>12</code>, <code>24</code>, or <code>36</code>.'
+                  example: 12
+              required:
+                - amount
+                - term
+    get:
+      summary: 'List Loans'
+      description: 'Get all loans of current user'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  statusCode: 200
+                  data:
+                    -
+                      id: 1
+                      amount: 500000
+                      term: 12
+                      status: PENDING
+                      createdAt: '2021-11-14'
+                    -
+                      id: 2
+                      amount: 300000
+                      term: 16
+                      status: PENDING
+                      createdAt: '2021-11-14'
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        amount: 500000
+                        term: 12
+                        status: PENDING
+                        createdAt: '2021-11-14'
+                      -
+                        id: 2
+                        amount: 300000
+                        term: 16
+                        status: PENDING
+                        createdAt: '2021-11-14'
+                    items:
+                      type: object
+      tags:
+        - 'Loan management'
+  /api/repayments:
+    post:
+      summary: 'Store a new Repayment'
+      description: 'Repayment a loan'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  statusCode: 200
+                  data:
+                    id: 1
+                    loanId: 1
+                    amount: 500000
+                    createdAt: '2021-11-14'
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    example:
+                      id: 1
+                      loanId: 1
+                      amount: 500000
+                      createdAt: '2021-11-14'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'The given data was invalid.'
+                  errors:
+                    loan_id:
+                      - 'The selected loan id is invalid.'
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                  errors:
+                    type: object
+                    example:
+                      loan_id:
+                        - 'The selected loan id is invalid.'
+      tags:
+        - 'Repayment management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                loan_id:
+                  type: integer
+                  description: 'The id of approved loan need to repayment.'
+                  example: 1
+                amount:
+                  type: integer
+                  description: 'The amount must be equal with loan''s amount. Must be one of <code></code>.'
+                  example: 500000
+              required:
+                - loan_id
+                - amount
+    get:
+      summary: 'List Repayments'
+      description: 'Get all repayments of current user'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  statusCode: 200
+                  data:
+                    -
+                      id: 1
+                      loanId: 1
+                      amount: 500000
+                      createdAt: '2021-11-14'
+                    -
+                      id: 2
+                      loanId: 2
+                      amount: 300000
+                      createdAt: '2021-11-14'
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        loanId: 1
+                        amount: 500000
+                        createdAt: '2021-11-14'
+                      -
+                        id: 2
+                        loanId: 2
+                        amount: 300000
+                        createdAt: '2021-11-14'
+                    items:
+                      type: object
+      tags:
+        - 'Repayment management'
+tags:
+  -
+    name: Authentication
+    description: ''
+  -
+    name: 'Loan management'
+    description: ''
+  -
+    name: 'Repayment management'
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []

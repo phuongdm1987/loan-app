@@ -1,0 +1,235 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "loan.local"
+        }
+    ],
+    "info": {
+        "name": "Loan Application",
+        "_postman_id": "41481518-3b8b-45ed-92a3-a30262ce6aca",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "",
+            "item": [
+                {
+                    "name": "Login",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"phuongdm1987@gmail.com\",\"password\":\"password\"}"
+                        },
+                        "description": "The API authenticate and return access token.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"statusCode\": 200, \"data\": {\"accessToken\": \"your token key\", \"tokenType\": \"Bearer\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"message\": \"The given data was invalid.\", \"errors\": {\"email\": [\"These credentials do not match our records.\"]}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Loan management",
+            "description": "",
+            "item": [
+                {
+                    "name": "Store a new Loan",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/loans",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/loans"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"amount\":500000,\"term\":12}"
+                        },
+                        "description": "Request a new loan"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"statusCode\": 200, \"data\": {\"id\": 1, \"amount\": 500000, \"term\": 12, \"status\": \"PENDING\", \"createdAt\": \"2021-11-14\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"message\": \"The given data was invalid.\", \"errors\": {\"amount\": [\"The amount field is required.\"]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List Loans",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/loans",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/loans"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get all loans of current user"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"statusCode\": 200, \"data\": [{\"id\": 1, \"amount\": 500000, \"term\": 12, \"status\": \"PENDING\", \"createdAt\": \"2021-11-14\"}, {\"id\": 2, \"amount\": 300000, \"term\": 16, \"status\": \"PENDING\", \"createdAt\": \"2021-11-14\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Repayment management",
+            "description": "",
+            "item": [
+                {
+                    "name": "Store a new Repayment",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/repayments",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/repayments"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"loan_id\":1,\"amount\":500000}"
+                        },
+                        "description": "Repayment a loan"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"statusCode\": 200, \"data\": {\"id\": 1, \"loanId\": 1, \"amount\": 500000, \"createdAt\": \"2021-11-14\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"message\": \"The given data was invalid.\", \"errors\": {\"loan_id\": [\"The selected loan id is invalid.\"]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List Repayments",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/repayments",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/repayments"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get all repayments of current user"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"statusCode\": 200, \"data\": [{\"id\": 1, \"loanId\": 1, \"amount\": 500000, \"createdAt\": \"2021-11-14\"}, {\"id\": 2, \"loanId\": 2, \"amount\": 300000, \"createdAt\": \"2021-11-14\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer"
+    }
+}

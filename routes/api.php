@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', LoginController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/loans', LoanController::class);
-    Route::post('/repayments', RepaymentController::class);
+    Route::get('/loans', [LoanController::class, 'index']);
+    Route::post('/loans', [LoanController::class, 'store']);
+    Route::get('/repayments', [RepaymentController::class, 'index']);
+    Route::post('/repayments', [RepaymentController::class, 'store']);
 });

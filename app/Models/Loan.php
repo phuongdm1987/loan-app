@@ -33,7 +33,7 @@ class Loan extends Model
      */
     protected $casts = [
         'user_id' => 'integer',
-        'amount' => 'double',
+        'amount' => 'integer',
         'term' => 'integer',
         'approved_at' => 'datetime',
     ];
