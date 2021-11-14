@@ -15,6 +15,15 @@ use Illuminate\Http\JsonResponse;
 class LoanController extends Controller
 {
     /**
+     * Loan
+     *
+     * Request a new loan
+     *
+     * @group Loan management
+     *
+     * @response {"statusCode": 200, "data": {"id": 1, "amount": 500000, "term": 12, "status": "PENDING", "createdAt": "2021-11-14"}}
+     * @response 422 {"message": "The given data was invalid.", "errors": {"amount": ["The amount field is required."]}}
+     *
      * @param StoreLoanRequest $request
      * @return JsonResponse
      */

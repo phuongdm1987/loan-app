@@ -28,8 +28,25 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:8',
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string', 'min:8'],
+        ];
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'email' => [
+                'description' => 'The email of user.',
+                'example' => 'phuongdm1987@gmail.com',
+            ],
+            'password' => [
+                'description' => 'The password of user.',
+                'example' => 'password',
+            ],
         ];
     }
 }

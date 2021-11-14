@@ -65,4 +65,12 @@ class Loan extends Model
             self::STATUS_PAID => self::STATUS_PAID,
         ];
     }
+
+    /**
+     * @return bool
+     */
+    public function isPending(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
 }

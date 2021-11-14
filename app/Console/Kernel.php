@@ -29,7 +29,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(ApproveLoanCommand::class)->everyMinute();
+        $schedule->command(ApproveLoanCommand::class)
+            ->everyMinute()
+            ->timezone('Asia/Ho_Chi_Minh')
+            ->runInBackground();
     }
 
     /**

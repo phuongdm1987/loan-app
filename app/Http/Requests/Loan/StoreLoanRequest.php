@@ -31,7 +31,24 @@ class StoreLoanRequest extends FormRequest
     {
         return [
             'amount' => ['required', 'integer'],
-            'term' => ['required', Rule::in(array_keys(Loan::getTerms()))],
+            'term' => ['required', 'integer', Rule::in(array_keys(Loan::getTerms()))],
+        ];
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'amount' => [
+                'description' => 'The amount want to loan.',
+                'example' => 500000,
+            ],
+            'term' => [
+                'description' => 'The term of loan by months.',
+                'example' => 12,
+            ],
         ];
     }
 }

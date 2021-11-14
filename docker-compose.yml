@@ -68,6 +68,11 @@ services:
       - ${PWD}/docker/supervisor/supervisord:/etc/supervisord.d
     networks:
       - loan_network
+    env_file:
+        - docker/env/main.env
+        - docker/env/mail.env
+        - docker/env/mysql.env
+        - .env
 
   cron:
     build:
@@ -82,6 +87,8 @@ services:
       - docker/env/mail.env
       - docker/env/mysql.env
       - .env
+    depends_on:
+        - mysql
 
 networks:
   loan_network:

@@ -11,6 +11,16 @@ use Illuminate\Http\JsonResponse;
 class LoginController extends Controller
 {
     /**
+     * Login
+     *
+     * The API authenticate and return access token.
+     *
+     * @group Authentication
+     *
+     * @response {"statusCode": 200, "data": {"accessToken": "your token key", "tokenType": "Bearer"}}
+     * @response 422 {"message": "The given data was invalid.", "errors": {"email": ["These credentials do not match our records."]}}
+     *
+     * @unauthenticated
      * @param LoginRequest $request
      * @return JsonResponse
      */
